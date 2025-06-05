@@ -1,0 +1,44 @@
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+Cell In[4], line 26
+     24 plt.subplot(1, 2, 1)
+     25 plt.plot(epochs, train_loss, label='Train Loss')
+---> 26 plt.plot(epochs, test_loss, label='Test Loss')
+     27 plt.xlabel('Epoch')
+     28 plt.ylabel('Loss')
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\pyplot.py:2812, in plot(scalex, scaley, data, *args, **kwargs)
+   2810 @_copy_docstring_and_deprecators(Axes.plot)
+   2811 def plot(*args, scalex=True, scaley=True, data=None, **kwargs):
+-> 2812     return gca().plot(
+   2813         *args, scalex=scalex, scaley=scaley,
+   2814         **({"data": data} if data is not None else {}), **kwargs)
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\axes\_axes.py:1688, in Axes.plot(self, scalex, scaley, data, *args, **kwargs)
+   1445 """
+   1446 Plot y versus x as lines and/or markers.
+   1447 
+   (...)
+   1685 (``'green'``) or hex strings (``'#008000'``).
+   1686 """
+   1687 kwargs = cbook.normalize_kwargs(kwargs, mlines.Line2D)
+-> 1688 lines = [*self._get_lines(*args, data=data, **kwargs)]
+   1689 for line in lines:
+   1690     self.add_line(line)
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\axes\_base.py:311, in _process_plot_var_args.__call__(self, data, *args, **kwargs)
+    309     this += args[0],
+    310     args = args[1:]
+--> 311 yield from self._plot_args(
+    312     this, kwargs, ambiguous_fmt_datakey=ambiguous_fmt_datakey)
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\axes\_base.py:504, in _process_plot_var_args._plot_args(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)
+    501     self.axes.yaxis.update_units(y)
+    503 if x.shape[0] != y.shape[0]:
+--> 504     raise ValueError(f"x and y must have same first dimension, but "
+    505                      f"have shapes {x.shape} and {y.shape}")
+    506 if x.ndim > 2 or y.ndim > 2:
+    507     raise ValueError(f"x and y can be no greater than 2D, but have "
+    508                      f"shapes {x.shape} and {y.shape}")
+
+ValueError: x and y must have same first dimension, but have shapes (34,) and (33,)
