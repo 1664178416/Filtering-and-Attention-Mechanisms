@@ -1,0 +1,2 @@
+Namespace(T=16, device='cuda:0', b=16, epochs=32, j=4, data_dir='../datasets/DVS128Gesture', out_dir='./logs', resume=None, amp=True, cupy=True, opt='adam', momentum=0.9, lr=0.001, channels=128)
+d:\dev\anaconda3\envs\snn\lib\site-packages\ipykernel_launcher.py --f=c:\Users\jiaryWin\AppData\Roaming\jupyter\runtime\kernel-v3c0fcc127a67c334ee0968df29cc0bf103ac03e41.json
