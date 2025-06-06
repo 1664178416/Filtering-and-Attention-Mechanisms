@@ -1,44 +1,95 @@
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-Cell In[4], line 26
-     24 plt.subplot(1, 2, 1)
-     25 plt.plot(epochs, train_loss, label='Train Loss')
----> 26 plt.plot(epochs, test_loss, label='Test Loss')
-     27 plt.xlabel('Epoch')
-     28 plt.ylabel('Loss')
+Cell In[27], line 208
+    205         print(f'escape time = {(datetime.datetime.now() + datetime.timedelta(seconds=(time.time() - start_time) * (args.epochs - epoch))).strftime("%Y-%m-%d %H:%M:%S")}\n')
+    207 if __name__ == '__main__':
+--> 208     main()
 
-File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\pyplot.py:2812, in plot(scalex, scaley, data, *args, **kwargs)
-   2810 @_copy_docstring_and_deprecators(Axes.plot)
-   2811 def plot(*args, scalex=True, scaley=True, data=None, **kwargs):
--> 2812     return gca().plot(
-   2813         *args, scalex=scalex, scaley=scaley,
-   2814         **({"data": data} if data is not None else {}), **kwargs)
+Cell In[27], line 132
+    130 if scaler is not None:
+    131     with amp.autocast():
+--> 132         out_fr = net(frame).mean(0)
+    133         loss = F.mse_loss(out_fr, label_onehot)
+    134     scaler.scale(loss).backward()
 
-File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\axes\_axes.py:1688, in Axes.plot(self, scalex, scaley, data, *args, **kwargs)
-   1445 """
-   1446 Plot y versus x as lines and/or markers.
-   1447 
-   (...)
-   1685 (``'green'``) or hex strings (``'#008000'``).
-   1686 """
-   1687 kwargs = cbook.normalize_kwargs(kwargs, mlines.Line2D)
--> 1688 lines = [*self._get_lines(*args, data=data, **kwargs)]
-   1689 for line in lines:
-   1690     self.add_line(line)
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1751, in Module._wrapped_call_impl(self, *args, **kwargs)
+   1749     return self._compiled_call_impl(*args, **kwargs)  # type: ignore[misc]
+   1750 else:
+-> 1751     return self._call_impl(*args, **kwargs)
 
-File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\axes\_base.py:311, in _process_plot_var_args.__call__(self, data, *args, **kwargs)
-    309     this += args[0],
-    310     args = args[1:]
---> 311 yield from self._plot_args(
-    312     this, kwargs, ambiguous_fmt_datakey=ambiguous_fmt_datakey)
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1762, in Module._call_impl(self, *args, **kwargs)
+   1757 # If we don't have any hooks, we want to skip the rest of the logic in
+   1758 # this function, and just call forward.
+   1759 if not (self._backward_hooks or self._backward_pre_hooks or self._forward_hooks or self._forward_pre_hooks
+   1760         or _global_backward_pre_hooks or _global_backward_hooks
+   1761         or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1762     return forward_call(*args, **kwargs)
+   1764 result = None
+   1765 called_always_called_hooks = set()
 
-File d:\dev\anaconda3\envs\snn\lib\site-packages\matplotlib\axes\_base.py:504, in _process_plot_var_args._plot_args(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)
-    501     self.axes.yaxis.update_units(y)
-    503 if x.shape[0] != y.shape[0]:
---> 504     raise ValueError(f"x and y must have same first dimension, but "
-    505                      f"have shapes {x.shape} and {y.shape}")
-    506 if x.ndim > 2 or y.ndim > 2:
-    507     raise ValueError(f"x and y can be no greater than 2D, but have "
-    508                      f"shapes {x.shape} and {y.shape}")
+Cell In[26], line 47
+     46 def forward(self, x: torch.Tensor):
+---> 47     x = self.denoise(x)
+     48     return self.conv_fc(x)
 
-ValueError: x and y must have same first dimension, but have shapes (34,) and (33,)
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1751, in Module._wrapped_call_impl(self, *args, **kwargs)
+   1749     return self._compiled_call_impl(*args, **kwargs)  # type: ignore[misc]
+   1750 else:
+-> 1751     return self._call_impl(*args, **kwargs)
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1762, in Module._call_impl(self, *args, **kwargs)
+   1757 # If we don't have any hooks, we want to skip the rest of the logic in
+   1758 # this function, and just call forward.
+   1759 if not (self._backward_hooks or self._backward_pre_hooks or self._forward_hooks or self._forward_pre_hooks
+   1760         or _global_backward_pre_hooks or _global_backward_hooks
+   1761         or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1762     return forward_call(*args, **kwargs)
+   1764 result = None
+   1765 called_always_called_hooks = set()
+
+Cell In[26], line 12
+     11 def forward(self, x):
+---> 12     x = functional.seq_to_ann_forward(x, self.denoise)
+     13     return x
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\spikingjelly\activation_based\functional.py:684, in seq_to_ann_forward(x_seq, stateless_module)
+    682 if isinstance(stateless_module, (list, tuple, nn.Sequential)):
+    683     for m in stateless_module:
+--> 684         y = m(y)
+    685 else:
+    686     y = stateless_module(y)
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1751, in Module._wrapped_call_impl(self, *args, **kwargs)
+   1749     return self._compiled_call_impl(*args, **kwargs)  # type: ignore[misc]
+   1750 else:
+-> 1751     return self._call_impl(*args, **kwargs)
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1857, in Module._call_impl(self, *args, **kwargs)
+   1854     return inner()
+   1856 try:
+-> 1857     return inner()
+   1858 except Exception:
+   1859     # run always called hooks if they have not already been run
+   1860     # For now only forward hooks have the always_call option but perhaps
+   1861     # this functionality should be added to full backward hooks as well.
+   1862     for hook_id, hook in _global_forward_hooks.items():
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\torch\nn\modules\module.py:1805, in Module._call_impl.<locals>.inner()
+   1802     bw_hook = BackwardHook(self, full_backward_hooks, backward_pre_hooks)
+   1803     args = bw_hook.setup_input_hook(args)
+-> 1805 result = forward_call(*args, **kwargs)
+   1806 if _global_forward_hooks or self._forward_hooks:
+   1807     for hook_id, hook in (
+   1808         *_global_forward_hooks.items(),
+   1809         *self._forward_hooks.items(),
+   1810     ):
+   1811         # mark that always called hook is run
+
+File d:\dev\anaconda3\envs\snn\lib\site-packages\spikingjelly\activation_based\layer.py:170, in Conv2d.forward(self, x)
+    168 elif self.step_mode == 'm':
+    169     if x.dim() != 5:
+--> 170         raise ValueError(f'expected x with shape [T, N, C, H, W], but got x with shape {x.shape}!')
+    171     x = functional.seq_to_ann_forward(x, super().forward)
+    173 return x
+
+ValueError: expected x with shape [T, N, C, H, W], but got x with shape torch.Size([256, 2, 128, 128])!
