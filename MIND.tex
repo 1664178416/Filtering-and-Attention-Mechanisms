@@ -72,37 +72,36 @@ Neuromorphic Computing, Data Pipeline Optimization, Pulse Noise Filtering
 \end{IEEEkeywords}
 
 \section{Introduction}
-Neuromorphic data, characterized by its event-driven and sparsity-aware nature, 
-has emerged as a promising paradigm for real-time applications such as gesture recognition, object tracking, and autonomous navigation. 
-However, the efficient processing of such data remains a significant challenge, particularly in edge computing scenarios where computational resources are limited. 
-A critical bottleneck lies in the substantial latency introduced by data loading and preprocessing, which can account for over 40\% of the total training time. 
-Traditional approaches to address this issue often focus on either algorithmic optimizations or hardware acceleration in isolation, failing to fully exploit the synergistic potential of a unified framework.
+Spiking Neural Networks(SNN),which are regarded as the third generation of neural network models,offer a more biologically plausible simulation of neural dynamic by incorporating not only neuronal and synaptic states but also temporal information into their computational framework.\cite{b3,10.5555}Unlike traditional artificial neural networks (ANNs),which relay on continuous-valued activations,SNNs process information through discrete spike events,letting them to capture the temporal dependencies inherent in biological systems.This temporal sensivity,combined with energy-efficient computation,allows SNNs to become as a promising alternative for modeling complex cognitive tasks with potentially superior performance and lower power consumption.\cite{roy2019towards}
 
-This paper proposes a novel solution that seamlessly integrates data pipeline optimization with lightweight preprocessing techniques to achieve end-to-end acceleration. At the system level, 
-we leverage parallel loading and prefetching mechanisms to maximize data throughput. On the algorithmic front, 
-we introduce a dynamic time window aggregation method that adaptively captures spatiotemporal sparsity in event data, alongside a computationally efficient pulse noise filtering module based on local spatiotemporal correlations. 
-Additionally, we employ structured model pruning to reduce redundant connections, further enhancing computational efficiency.
+Neuromorphic data, characterized by its event-driven nature and sparse sensory representation, has emerged as a compelling paradigm across various real-time application domains, including gesture recognition, object tracking, and autonomous navigation. Neuromorphic data, characterized by its event-driven nature and sparse sensory representation, has emerged as a compelling paradigm across various real-time application domains, including gesture recognition, object tracking, and autonomous navigation.However, the efficient processing of such data remains a significant challenge, particularly in edge computing scenarios where computational resources are limited. A critical bottleneck lies in the substantial latency introduced by data loading and preprocessing. Traditional approaches to address this issue often focus on either algorithmic optimizations or hardware acceleration in isolation, failing to fully exploit the synergistic potential of a unified framework.\cite{ding2024}
+
+This paper proposes a novel solution that seamlessly integrates data pipeline optimization with lightweight preprocessing techniques to achieve end-to-end acceleration. At the system level, we leverage parallel loading and prefetching mechanisms to maximize data throughput. On the algorithmic front, we introduce a computationally efficient pulse noise filtering module based on local spatiotemporal correlations.This module enhances the robustness of our model against noise while preserving critical temporal dynamics. Additionally, we incorporate a self-attention mechanism to augment the model's understanding of feature channel interdependencies, thereby improving its representational capacity.\cite{hu2019} To further enhance computational efficiency, we employ structured model pruning,which systematically reduces redundant connections.\cite{han2015}
 
 Our contributions are threefold:
-1) We present the first unified framework that combines data pipeline optimization with lightweight preprocessing, addressing the latency bottleneck in neuromorphic data processing.
-2) We demonstrate significant improvements in inference speed (2× faster) and classification accuracy (92.36\% on the test set) using the DVS128 Gesture dataset on an NVIDIA 4070 GPU.
-3) We provide a comprehensive analysis of the trade-offs between speed, accuracy, and computational efficiency, offering practical insights for real-time applications.
 
-This work bridges the gap between system-level optimizations and algorithmic innovations, 
-paving the way for efficient neuromorphic data processing in resource-constrained environments. 
-By reducing latency without compromising accuracy, our framework enables the deployment of event-based vision systems in edge computing scenarios, such as drones, robotics, and IoT devices.
+(1)we compared the effects on accuracy and training speed when setting different frame numbers in the ddateset.
+
+(2)we proposed a lightweight preprocessing method that combines pulse noise filtering and self-attention mechanisms based on the network proposed by WeiFang\cite{fang2021}to enhance the model's robustness and representational capacity.Meanwhile we conducted experiments on the DVS-Gesture dataset and achieved experimental results.
+
+(3)we introduced structured model pruning to reduce redundant connections, thereby improving computational efficiency.
+
+
+
 
 \section{Related Work}
+\subsection{Spiking Neural Networks}
+Spiking Neural Networks(SNNs) mimics the pulse emission characteristics of biological neurons (such as the LIF model), drives computing with discrete events, and has significant advantages in energy-sensitive scenarios (such as edge devices).\cite{roy2019towards} A major research focus in the field of SNNs is the conversion from artificial neural networks(ANNs) to SNNs\cite{rueckauer2017conversion},which is dedicated to addressing the challenges of accuracy degradation and training instability during the conversion process.\cite{han2020rmp} Zhang et al. (2025) proposed a method called STNN-SNN, a Spatial-Temporal Attention Aggregator SNN framework,which can dynamically attend to and capture dependencies between spatial and temporal domains.\cite{zhang2025}
 
-\subsection{Neuromorphic data preprocessing methods}
+\subsection{Spatial-Temporal-Polarity Coherence Filtering}
+In event-based neuromorphic data processing, spatio-temporal polarity coherent filtering is an effective denoising processing method. Unlike conventional frame-based filtering, this method leverages the unique characteristics of event streams, where each event is defined by its spatial coordinates, timestamp, and polarity. Spatio-temporal polarity coherent filtering has been widely applied in event-based neuromorphic vision tasks. Sironi et al.(2018) used polarity and spatial-temporal neighborhood statistical characteristics to robustly classify events.\cite{8578284} 
 
-Event compression and denoising
+\subsection{Attention Mechanism of SNNs}
+Attention mechanism has attracted considerable attention since its inception and has been widely used in various neural network architectures.Xue et al. (2024) introduced Gated Attention Coding (GAC)\cite{qiu2024}, a plug-and-play module that encodes inputs into powerful representations.Yu et al. (2024) proposed a Frequency-based Spatial-Temporal Attention(FSTA) model to enhance feature learning in SNNs.\cite{yu2025}  Shen et al.(2024) innovatively implemented an attention mechanism in SNNs called Temporal Interaction Module (TIM),which was designed to augment the temporal data processing abilities within SNN architectures.\cite{shen2024}
 
-\subsection{Deep learning training acceleration technology}
-
-Data loading optimization and model pruning
 
 \section{Methodology}
+
 
 \section{Experiments}
 \subsection{Experimental Setup}
@@ -487,15 +486,8 @@ However, in the test process,
 % For papers published in translation journals, please give the English 
 % citation first, followed by the original foreign-language citation \cite{b6}.
 
-\begin{thebibliography}{00}
-\bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
-\bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
-\bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
-\bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
-\bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
-\bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
-\bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
-\end{thebibliography}
+\bibliographystyle{IEEEtran}
+\bibliography{reference}
 % \vspace{12pt}
 % \color{red}
 % IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
