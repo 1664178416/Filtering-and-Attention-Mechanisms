@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{subcaption}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -104,9 +105,208 @@ Data loading optimization and model pruning
 \section{Methodology}
 
 \section{Experiments}
+\subsection{Experimental Setup}
+\textbf{Dataset Description} In this experiment, we utilize the DVS Gesture dataset, a publicly available dataset for gesture recognition based on Dynamic Vision Sensor (DVS). 
+The dataset comprises 1,342 samples, each corresponding to one of 11 distinct gesture categories.
+Each gesture is performed multiple times by approximately 29 different subjects. 
+Each sample is stored in the form of an event stream. 
+The dataset also provides training and test set splits, facilitating model evaluation on real-world event data.
+The data was collected under varying lighting and motion conditions to enhance diversity.
+
+\textbf{Evaluation Metrics} To comprehensively evaluate model performance, we employ five key metrics: 
+(1) Training speed (samples/sec), measuring computational efficiency by tracking processed samples per second during training; 
+(2) Training accuracy (\%), monitoring the model's learning progress by calculating correct predictions on training data; 
+(3) Test accuracy (\%), the primary classification metric evaluated on held-out test samples;
+(4) Training loss, recorded as an observational metric to analyze model behavior during training; 
+(5) Test loss, evaluating generalization capability on held-out data. 
+
+All experiments were conducted on a single NVIDIA RTX 4070 GPU with a batch size of 16, using the Adam optimizer, 
+Automatic Mixed Precision (AMP) for faster computation, and the CuPy library for GPU-accelerated array operations. 
+This multi-faceted evaluation captures both computational efficiency (training speed) and model effectiveness (accuracy/loss), 
+while the training loss serves purely as a diagnostic indicator rather than a control signal.
+
+\subsection{Impact of Frame Count on Model Performance}
+When processing DVS Gesture data, it is often necessary to convert the raw event stream into some form of 
+image representation (e.g., event frames, accumulated frames, or time surfaces) so that it can be input into a 
+convolutional neural network (CNN) for classification or other tasks. In this process, frame number is a key parameter, 
+which indicates how many time windows the entire event stream should be divided into. 
+Within each window, an "event frame" is generated as an input feature.
+
+In this experiment, we process the DVS Gesture dataset on different frame numbers, as shown in Fig \ref{fig:dvs_gesture_frame_num}.
+Each row represents the processed dataset with different frame numbers, from top to bottom the number of frames is 2, 4, 8, and 16.
+And each column represents a different category, from left to right, which is guitar, right hand wave, forearm roll forward, left hand wave, 
+right hand counter clockwise, right hand clockwise, left hand counter clockwise, left hand clockwise, clap, drums and others.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/dataset.png}
+    \caption{DVS Gesture Dataset in Different Frame Numbers}
+    \label{fig:dvs_gesture_frame_num}
+\end{figure}
+
+Through the sample of dataset, we can see that for most categories there is only a change in brightness caused by the difference of frame number, 
+but for certain categories, such as the counter clockwise and clockwise rotation of the left and right hands, 
+it is difficult to distinguish the corresponding images in the dataset with a small number of frames.
+
+To detect the influence of frame number on the model training, we use the DVS Gesture dataset processed with different frame numbers 
+to train the basic model and compare the performance of the model. The corresponding training results are shown in Fig\ref{fig:main_figure}.
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/Train_loss.png}
+        \caption{Train Loss Curve}
+        \label{fig:sub1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/Train_acc.png}
+        \caption{Train Accuracy Curve}
+        \label{fig:sub2}
+    \end{subfigure}
+
+    \vspace{0.01em} % Adjust vertical space between rows
+
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/Test_loss.png}
+        \caption{Test Loss Curve}
+        \label{fig:sub3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/Test_acc.png}
+        \caption{Test Accuracy Curve}
+        \label{fig:sub4}
+    \end{subfigure}
+    \caption{Performance of Base Model at Different Frame Numbers}
+    \label{fig:main_figure}
+\end{figure}
+The results show that the model with more frames can achieve higher accuracy.
+The Fig\ref{fig:main_figure} demonstrate that the frame partitioning strategy exhibits 
+negligible impact on both model loss and accuracy during the initial 10 training epochs. 
+However, subsequent training reveals a significant performance divergence - 
+higher frame counts consistently yield superior results, 
+with the baseline model achieving lower loss values and higher accuracy when processing certain movement sampled frames. 
+This phenomenon can be attributed to the increased information density afforded by finer temporal segmentation, 
+which enables more comprehensive feature extraction throughout the network's deeper layers.
+
+In addition to loss and accuracy, training speed is also an important metric 
+for evaluating model performance. The Fig\ref{fig:speed-accuracy} below 
+illustrates the relationship between Average training speed and Maximum test accuracy 
+during model training across different frame numbers.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/Accuracy_speed.png}
+    \caption{Speed-Accuracy Plot}
+    \label{fig:speed-accuracy}
+\end{figure}
+
+As shown in Fig\ref{fig:speed-accuracy}, reducing the number of frames per event significantly accelerates the training speed. 
+However, fewer frames lead to a certain degree of information loss, which consequently reduces the accuracy. 
+In this experiment, the highest accuracy of 91.0\% is achieved when each event is divided into 16 frames, 
+while the training speed is the slowest at 7.5. 
+Conversely, when each event is divided into 2 frames, the accuracy drops to its lowest at 83.0\%, 
+but the training speed increases nearly tenfold compared to the slowest speed.
+
+\subsection{Impact of Denoising on Model Efficacy}
+To further enhance the model's training performance, we performed denoising on the dataset based on setting the number of frames for event segmentation to 16, 
+aiming to achieve superior training outcomes.We applied the spatiotemporal polarity consistency filtering method, 
+as introduced in the Methodology chapter, to process the dataset. 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/denoise.png}
+    \caption{Denoised Dataset}
+    \label{fig:denoise}
+\end{figure}
+The frame of each category from the processed dataset are illustrated in Fig\ref{fig:denoise}. 
+The denoised images exhibit a high level of clarity and smoothness, with minimal visual artifacts. 
+Essential details, such as edges and textures, are well-preserved, ensuring the integrity of the original data. 
+The dataset presents a clean and visually consistent representation, characterized by a uniform and noise-free appearance. 
+The overall visual quality of the denoised images is both natural and interpretable, making them suitable for subsequent analysis.
+
+To further optimize based on the results of the previous experiment, we similarly segmented each event stream in the denoised dataset into 16 frames 
+and trained the baseline model for 32 epochs to compare the training performance. 
+The transformations of key parameters during the training process are shown in Fig\ref{fig:performance-denoise}.
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/denoise_train_loss.png}
+        \caption{Train Loss Curve}
+        \label{fig:sub1-d}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/denoise_train_speed.png}
+        \caption{Train Speed Curve}
+        \label{fig:sub2-d}
+    \end{subfigure}
+
+    \vspace{0.01em} % Adjust vertical space between rows
+
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/denoise_test_loss.png}
+        \caption{Test Loss Curve}
+        \label{fig:sub3-d}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/denoise_test_acc.png}
+        \caption{Test Accuracy Curve}
+        \label{fig:sub4-d}
+    \end{subfigure}
+    \caption{Performance of Base Model at }
+    \label{fig:performance-denoise}
+\end{figure}
+By analyzing Fig\ref{fig:sub1-d} and Fig\ref{fig:sub2-d}, 
+which respectively depict the training loss and training speed of basic model on both the original dataset and the denoised dataset, 
+it can be observed that except for the slower training speed of the base model in the first epoch on the denoised dataset compared to the original dataset, 
+the performance of the two datasets during the training process is similar in all other cases.
+However, in the test process,
+
+\subsection{Assessing Model Performance with Attention Mechanism}
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/SE_train_loss.png}
+        \caption{Train Loss Curve}
+        \label{fig:sub1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/SE_train_accpng.png}
+        \caption{Train Accuracy Curve}
+        \label{fig:sub2}
+    \end{subfigure}
+
+    \vspace{0.01em} % Adjust vertical space between rows
+
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/SE_test_losss.png}
+        \caption{Test Loss Curve}
+        \label{fig:sub3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/SE_Test_acc.png}
+        \caption{Test Accuracy Curve}
+        \label{fig:sub4}
+    \end{subfigure}
+    \caption{Performance of Base Model at Different Frame Numbers}
+    \label{fig:SE}
+\end{figure}
+
 
 \section{Conclusion}
-
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/acc_speed.png}
+    \caption{Speed-Accuracy Plot of All Training Processes}
+    \label{fig:denoise}
+\end{figure}
 % \subsection{Abbreviations and Acronyms}\label{AA}
 % Define abbreviations and acronyms the first time they are used in the text, 
 % even after they have been defined in the abstract. Abbreviations such as 

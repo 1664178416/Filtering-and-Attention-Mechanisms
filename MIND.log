@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.7)  5 JUN 2025 21:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.7)  12 JUN 2025 16:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -229,41 +229,99 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+ (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen176
+\captionmargin=\dimen177
+\caption@leftmargin=\dimen178
+\caption@rightmargin=\dimen179
+\caption@width=\dimen180
+\caption@indent=\dimen181
+\caption@parindent=\dimen182
+\caption@hangindent=\dimen183
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEtablestring \footnotesize \bgroup \par \centering \@IEEEtabletopskipstrut {\normalfont \footnotesize #1}\\{\normalfont \footnotesize \scshape #2}\par \addvspace {0.5\baselineskip }\egroup \@IEEEtablecaptionsepspace \else \@IEEEfigurecaptionsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspace \nobreakspace #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspace \nobreakspace }\parbox [t]{\hsize }{\normalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONconference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }\else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi \fi  on input line 1175.
+)
+
+Package caption Warning: Unknown document class (or package),
+(caption)                standard defaults will be used.
+See the caption package documentation for explanation.
+
+\c@caption@flags=\count293
+\c@continuedfloat=\count294
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count295
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count296
 ) (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count293
+\l__color_backend_stack_int=\count297
 \l__pdf_internal_box=\box56
-) (./MIND.aux)
+) (./MIND.aux
+
+LaTeX Warning: Label `fig:sub1' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:sub1' multiply defined.
+
+
+LaTeX Warning: Label `fig:sub2' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:sub2' multiply defined.
+
+
+LaTeX Warning: Label `fig:sub3' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:sub3' multiply defined.
+
+
+LaTeX Warning: Label `fig:sub4' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:sub4' multiply defined.
+
+
+LaTeX Warning: Label `fig:denoise' multiply defined.
+
+)
 \openout1 = `MIND.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
 
 -- Lines per column: 56 (exact).
 (d:/dev/Latex/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count294
-\scratchdimen=\dimen176
+\scratchcounter=\count298
+\scratchdimen=\dimen184
 \scratchbox=\box57
-\nofMPsegments=\count295
-\nofMParguments=\count296
+\nofMPsegments=\count299
+\nofMParguments=\count300
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count297
-\MPscratchDim=\dimen177
-\MPnumerator=\count298
-\makeMPintoPDFobject=\count299
+\MPscratchCnt=\count301
+\MPscratchDim=\dimen185
+\MPnumerator=\count302
+\makeMPintoPDFobject=\count303
 \everyMPtoPDFconversion=\toks25
 ) (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -271,21 +329,23 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 57.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 58.
  (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 57.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 58.
  (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 57.
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 62.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 58.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 63.
  (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 87.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 88.
 (d:/dev/Latex/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
@@ -294,6 +354,96 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 
 
 ]
+<figure/dataset.png, id=11, 1076.1003pt x 411.2163pt>
+File: figure/dataset.png Graphic file (type png)
+<use figure/dataset.png>
+Package pdftex.def Info: figure/dataset.png  used on input line 141.
+(pdftex.def)             Requested size: 232.19843pt x 88.72978pt.
+
+
+<figure/Train_loss.png, id=13, 900.4842pt x 493.6041pt>
+File: figure/Train_loss.png Graphic file (type png)
+<use figure/Train_loss.png>
+Package pdftex.def Info: figure/Train_loss.png  used on input line 156.
+(pdftex.def)             Requested size: 123.84283pt x 67.88394pt.
+<figure/Train_acc.png, id=14, 893.9799pt x 493.6041pt>
+File: figure/Train_acc.png Graphic file (type png)
+<use figure/Train_acc.png>
+Package pdftex.def Info: figure/Train_acc.png  used on input line 162.
+(pdftex.def)             Requested size: 123.84283pt x 68.3735pt.
+<figure/Test_loss.png, id=15, 900.4842pt x 493.6041pt>
+File: figure/Test_loss.png Graphic file (type png)
+<use figure/Test_loss.png>
+Package pdftex.def Info: figure/Test_loss.png  used on input line 171.
+(pdftex.def)             Requested size: 123.84283pt x 67.88394pt.
+<figure/Test_acc.png, id=16, 893.9799pt x 493.6041pt>
+File: figure/Test_acc.png Graphic file (type png)
+<use figure/Test_acc.png>
+Package pdftex.def Info: figure/Test_acc.png  used on input line 177.
+(pdftex.def)             Requested size: 123.84283pt x 68.3735pt.
+
+
+[2 <./figure/dataset.png> <./figure/Train_loss.png> <./figure/Train_acc.png> <./figure/Test_loss.png> <./figure/Test_acc.png>]
+<figure/Accuracy_speed.png, id=25, 715.473pt x 426.393pt>
+File: figure/Accuracy_speed.png Graphic file (type png)
+<use figure/Accuracy_speed.png>
+Package pdftex.def Info: figure/Accuracy_speed.png  used on input line 199.
+(pdftex.def)             Requested size: 232.19843pt x 138.38089pt.
+<figure/denoise.png, id=26, 1076.1003pt x 118.5228pt>
+File: figure/denoise.png Graphic file (type png)
+<use figure/denoise.png>
+Package pdftex.def Info: figure/denoise.png  used on input line 217.
+(pdftex.def)             Requested size: 232.19843pt x 25.57413pt.
+<figure/denoise_train_loss.png, id=27, 900.4842pt x 493.6041pt>
+File: figure/denoise_train_loss.png Graphic file (type png)
+<use figure/denoise_train_loss.png>
+Package pdftex.def Info: figure/denoise_train_loss.png  used on input line 234.
+(pdftex.def)             Requested size: 123.84283pt x 67.88394pt.
+<figure/denoise_train_speed.png, id=28, 893.9799pt x 493.6041pt>
+File: figure/denoise_train_speed.png Graphic file (type png)
+<use figure/denoise_train_speed.png>
+Package pdftex.def Info: figure/denoise_train_speed.png  used on input line 240.
+(pdftex.def)             Requested size: 123.84283pt x 68.3735pt.
+<figure/denoise_test_loss.png, id=29, 900.4842pt x 493.6041pt>
+File: figure/denoise_test_loss.png Graphic file (type png)
+<use figure/denoise_test_loss.png>
+Package pdftex.def Info: figure/denoise_test_loss.png  used on input line 249.
+(pdftex.def)             Requested size: 123.84283pt x 67.88394pt.
+<figure/denoise_test_acc.png, id=30, 893.9799pt x 493.6041pt>
+File: figure/denoise_test_acc.png Graphic file (type png)
+<use figure/denoise_test_acc.png>
+Package pdftex.def Info: figure/denoise_test_acc.png  used on input line 255.
+(pdftex.def)             Requested size: 123.84283pt x 68.3735pt.
+
+
+<figure/SE_train_loss.png, id=31, 900.4842pt x 493.6041pt>
+File: figure/SE_train_loss.png Graphic file (type png)
+<use figure/SE_train_loss.png>
+Package pdftex.def Info: figure/SE_train_loss.png  used on input line 273.
+(pdftex.def)             Requested size: 123.84283pt x 67.88394pt.
+<figure/SE_train_accpng.png, id=32, 893.9799pt x 493.6041pt>
+File: figure/SE_train_accpng.png Graphic file (type png)
+<use figure/SE_train_accpng.png>
+Package pdftex.def Info: figure/SE_train_accpng.png  used on input line 279.
+(pdftex.def)             Requested size: 123.84283pt x 68.3735pt.
+<figure/SE_test_losss.png, id=33, 900.4842pt x 493.6041pt>
+File: figure/SE_test_losss.png Graphic file (type png)
+<use figure/SE_test_losss.png>
+Package pdftex.def Info: figure/SE_test_losss.png  used on input line 288.
+(pdftex.def)             Requested size: 123.84283pt x 67.88394pt.
+<figure/SE_Test_acc.png, id=34, 893.9799pt x 493.6041pt>
+File: figure/SE_Test_acc.png Graphic file (type png)
+<use figure/SE_Test_acc.png>
+Package pdftex.def Info: figure/SE_Test_acc.png  used on input line 294.
+(pdftex.def)             Requested size: 123.84283pt x 68.3735pt.
+<figure/acc_speed.png, id=35, 715.473pt x 426.393pt>
+File: figure/acc_speed.png Graphic file (type png)
+<use figure/acc_speed.png>
+Package pdftex.def Info: figure/acc_speed.png  used on input line 306.
+(pdftex.def)             Requested size: 232.19843pt x 138.38089pt.
+
+
+[3 <./figure/Accuracy_speed.png> <./figure/denoise.png> <./figure/denoise_train_loss.png> <./figure/denoise_train_speed.png> <./figure/denoise_test_loss.png> <./figure/denoise_test_acc.png> <./figure/SE_train_loss.png> <./figure/SE_train_accpng.png> <./figure/SE_test_losss.png> <./figure/SE_Test_acc.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -309,27 +459,31 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-[2
+[4
 
-] (./MIND.aux)
+ <./figure/acc_speed.png>] (./MIND.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 4254 strings out of 473190
- 66318 string characters out of 5714770
- 474790 words of memory out of 5000000
- 27464 multiletter control sequences out of 15000+600000
- 598783 words of font info for 118 fonts, out of 8000000 for 9000
+ 5857 strings out of 473190
+ 98263 string characters out of 5714770
+ 501201 words of memory out of 5000000
+ 29056 multiletter control sequences out of 15000+600000
+ 600968 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,11n,65p,571b,304s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 67i,11n,77p,571b,474s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/dev/Latex/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><d:/dev/Latex/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/dev/Latex/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/dev/Latex/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/dev/Latex/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on MIND.pdf (2 pages, 71871 bytes).
+Output written on MIND.pdf (4 pages, 1341878 bytes).
 PDF statistics:
- 37 PDF objects out of 1000 (max. 8388607)
- 22 compressed objects within 1 object stream
+ 76 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 
