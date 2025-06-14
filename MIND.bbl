@@ -70,4 +70,7 @@ K.~Yu, T.~Zhang, H.~Wang, and Q.~Xu, ``Fsta-snn:frequency-based spatial-temporal
 S.~Shen, D.~Zhao, G.~Shen, and Y.~Zeng, ``Tim: An efficient temporal interaction module for spiking transformer,'' 2024. [Online]. Available: \url{https://arxiv.org/abs/2401.11687}
 \BIBentrySTDinterwordspacing
 
+\bibitem{10.5555/2728336.2728412}
+N.~Brunel and M.~C. Rossum, ``Quantitative investigations of electrical nerve excitation treated as polarization,'' \emph{Biol. Cybern.}, vol.~97, no. 5–6, p. 341–349, Dec. 2007.
+
 \end{thebibliography}

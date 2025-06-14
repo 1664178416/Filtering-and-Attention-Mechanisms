@@ -91,7 +91,7 @@ Our contributions are threefold:
 
 \section{Related Work}
 \subsection{Spiking Neural Networks}
-Spiking Neural Networks(SNNs) mimics the pulse emission characteristics of biological neurons (such as the LIF model), drives computing with discrete events, and has significant advantages in energy-sensitive scenarios (such as edge devices).\cite{roy2019towards} A major research focus in the field of SNNs is the conversion from artificial neural networks(ANNs) to SNNs\cite{rueckauer2017conversion},which is dedicated to addressing the challenges of accuracy degradation and training instability during the conversion process.\cite{han2020rmp} Zhang et al. (2025) proposed a method called STNN-SNN, a Spatial-Temporal Attention Aggregator SNN framework,which can dynamically attend to and capture dependencies between spatial and temporal domains.\cite{zhang2025}
+Spiking Neural Networks(SNNs) mimics the pulse emission characteristics of biological neurons, drives computing with discrete events, and has significant advantages in energy-sensitive scenarios (such as edge devices).\cite{roy2019towards} A major research focus in the field of SNNs is the conversion from artificial neural networks(ANNs) to SNNs\cite{rueckauer2017conversion},which is dedicated to addressing the challenges of accuracy degradation and training instability during the conversion process.\cite{han2020rmp} Zhang et al. (2025) proposed a method called STNN-SNN, a Spatial-Temporal Attention Aggregator SNN framework,which can dynamically attend to and capture dependencies between spatial and temporal domains.\cite{zhang2025}
 
 \subsection{Spatial-Temporal-Polarity Coherence Filtering}
 In event-based neuromorphic data processing, spatio-temporal polarity coherent filtering is an effective denoising processing method. Unlike conventional frame-based filtering, this method leverages the unique characteristics of event streams, where each event is defined by its spatial coordinates, timestamp, and polarity. Spatio-temporal polarity coherent filtering has been widely applied in event-based neuromorphic vision tasks. Sironi et al.(2018) used polarity and spatial-temporal neighborhood statistical characteristics to robustly classify events.\cite{8578284} 
@@ -101,6 +101,85 @@ Attention mechanism has attracted considerable attention since its inception and
 
 
 \section{Methodology}
+in this section, we first introduce the fundamental computational units of SNNs,namely the most widely used spiking neuron:the Leaky Integrate-and-Fire (LIF) neuron\cite{10.5555/2728336.2728412}.Then,we discussed the polarity coherence filtering method used for dataset denoising. At last, we present the model improved with Squeeze-and-Excitation Block (SEBlock).\cite{hu2019}
+\subsection{LIF neuron}
+An LIF neuron is depicted by the following equations:
+\begin{equation}
+\tau \frac{dV(t)}{dt} = -\left(V(t) - V_{\text{reset}}\right) + I(t)
+\end{equation}
+where $V(t)$ denotes the membrance potential of neuron at time $t$,$I(t)$ represents the input to neuron at time $t$, $V_{\text{reset}}$ is the reset potential, and $\tau$ is the time constant of the neuron. When the membrane potential $V(t)$ goes beyond the certain threshold $V_{\text{thresh}}$, the neuron will emit a spike and reset its membrane potential to $V_{\text{reset}}$. The output spike can be defined as:
+\begin{equation}
+S(t) = \begin{cases}
+1, & \text{if } V(t) \geq V_{\text{thresh}} \\
+0, & \text{otherwise}
+\end{cases}
+\end{equation}
+where $S(t)$ is the output spike at time $t$. The LIF neuron model captures the essential dynamics of biological neurons, which includes the integration of inputs over time and the generation of discrete spikes based on membrane potential thresholds.
+\subsection{Spatio-temporal polarity coherence filtering: formula analysis}
+Given an event stream $\mathcal{E} = \{e_i\}_{i=1}^N$, where each event $e_i = (t_i, x_i, y_i, p_i)$ consists of timestamp $t_i$, spatial coordinates $(x_i, y_i)$, and polarity $p_i \in \{0, 1\}$, the processing consists of two main steps: polarity-consistent filtering and temporal frame integration.
+
+\subsubsection{Polarity-Consistent Spatio-Temporal Filtering}
+
+For each event $e_i$, define its feature vector as:
+\[
+\mathbf{f}_i = \left( \left\lfloor \frac{t_i}{\Delta t} \right\rfloor, x_i, y_i \right)
+\]
+where $\Delta t$ is the time window (e.g., 1000).
+
+Construct a $k$-d tree using all $\mathbf{f}_i$ and, for each event, find its neighbors within radius $r$:
+\[
+\mathcal{N}_i = \left\{ j \mid \|\mathbf{f}_j - \mathbf{f}_i\|_2 \leq r \right\}
+\]
+
+An event $e_i$ is retained if the number of neighbors with the same polarity exceeds a threshold $\theta$:
+\[
+\sum_{j \in \mathcal{N}_i} \mathbb{I}(p_j = p_i) > \theta
+\]
+where $\mathbb{I}(\cdot)$ is the indicator function.
+
+\subsubsection{Temporal Frame Integration (16 Frames Example)}
+
+Let the filtered events be $\{e_k\}_{k=1}^{N'}$ with timestamps $t_k$. Define $t_{\text{start}} = t_1$, $t_{\text{end}} = t_{N'}$, and total duration $T = t_{\text{end}} - t_{\text{start}}$.
+
+Set the base frame width and remainder as:
+\[
+d = \left\lfloor \frac{T}{16} \right\rfloor, \quad r = T \bmod 16
+\]
+
+For frame $i$ ($i = 0, 1, \ldots, 15$), the time interval is:
+\begin{align}
+t_{\text{low}}^{(i)} &= t_{\text{start}} + i \cdot d + \min(i, r) \\
+t_{\text{high}}^{(i)} &= t_{\text{low}}^{(i)} + d + \delta_i
+\end{align}
+where
+\begin{equation}
+\delta_i =
+\begin{cases}
+1, & i < r \\
+0, & i \geq r
+\end{cases}
+\end{equation}
+
+Each frame $F_i$ is constructed by accumulating events in $[t_{\text{low}}^{(i)}, t_{\text{high}}^{(i)})$:
+\[
+F_i(c, x, y) = \sum_{k \in \mathcal{S}_i} \mathbb{I}(x_k = x, y_k = y, p_k = c)
+\]
+where $\mathcal{S}_i = \{k \mid t_{\text{low}}^{(i)} \leq t_k < t_{\text{high}}^{(i)}\}$ and $c \in \{0, 1\}$ denotes the polarity channel.
+
+The final output is a tensor of shape $16 \times 2 \times H \times W$.
+
+\subsection{The model improved with Squeeze-and-Excitation Block (SEBlock)}
+when the filtering process for the dataset is completed, we can use the processed dataset to train the model. In this paper we proposed a model based on the WeiFang's model\cite{fang2021} and improved it with Squeeze-and-Excitation Block (SEBlock)\cite{hu2019},alongside we conducted various experiments on this model and performed detailed comparisons.The model architecture is shown in Fig \ref{fig:model} and more Specific details will be presented in the following sections.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/model.png}
+    \caption{The Model Architecture with Squeeze-and-Excitation Block (SEBlock)}
+    \label{fig:model}
+\end{figure}
+
+
+
+
 
 
 \section{Experiments}
