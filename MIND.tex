@@ -205,14 +205,14 @@ while the training loss serves purely as a diagnostic indicator rather than a co
 When processing DVS Gesture data, it is often necessary to convert the raw event stream into some form of image representation (e.g., event frames, accumulated frames, or time surfaces) so that it can be input into a convolutional neural network (CNN) for classification or other tasks. In this process, frame number is a key parameter, which indicates how many time windows the entire event stream should be divided into. Within each window, an "event frame" is generated as an input feature.
 
 In this experiment, we process the DVS Gesture dataset on different frame numbers, as shown in Fig \ref{fig:dvs_gesture_frame_num}. Each row represents the processed dataset with different frame numbers, from top to bottom the number of frames is 2, 4, 8, and 16. And each column represents a different category, from left to right, which is guitar, right hand wave, forearm roll forward, left hand wave, right hand counter clockwise, right hand clockwise, left hand counter clockwise, left hand clockwise, clap, drums and others.
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.45\textwidth]{figure/dataset.png}
     \caption{DVS Gesture Dataset in Different Frame Numbers}
     \label{fig:dvs_gesture_frame_num}
 \end{figure}
 
-Through the sample of dataset, we can see that for most categories there is only a change in brightness caused by the difference of frame number, but for certain categories, such as the counter clockwise and clockwise rotation of the left and right hands, it is difficult to distinguish the corresponding images in the dataset with a small number of frames.
+Through the sample of dataset, we can see that for most categories there is almost no change caused by the difference of frame number, but for certain categories, such as the counter clockwise and clockwise rotation of the left and right hands, it is difficult to distinguish the corresponding images in the dataset with a small number of frames.
 
 To detect the influence of frame number on the model training, we use the DVS Gesture dataset processed with different frame numbers to train the basic model and compare the performance of the model. The corresponding training results are shown in Fig\ref{fig:main_figure}.
 \begin{figure}[htbp]
@@ -251,7 +251,7 @@ To detect the influence of frame number on the model training, we use the DVS Ge
 The results show that the model with more frames can achieve higher accuracy.The Fig\ref{fig:main_figure} demonstrate that the frame partitioning strategy exhibits negligible impact on both model loss and accuracy during the initial 10 training epochs. However, subsequent training reveals a significant performance divergence - higher frame counts consistently yield superior results, with the baseline model achieving lower loss values and higher accuracy when processing certain movement sampled frames. This phenomenon can be attributed to the increased information density afforded by finer temporal segmentation, which enables more comprehensive feature extraction throughout the network's deeper layers.
 
 In addition to loss and accuracy, training speed is also an important metric for evaluating model performance. The Fig\ref{fig:speed-accuracy} below illustrates the relationship between Average training speed and Maximum test accuracy during model training across different frame numbers.
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.45\textwidth]{figure/Accuracy_speed.png}
     \caption{Speed-Accuracy Plot}
@@ -360,31 +360,23 @@ These findings challenge the assumption that attention mechanisms universally en
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.45\textwidth]{figure/acc_speed.png}
-    \caption{Speed-Accuracy Plot of All Training Processes}
+    \caption{Speed-Accuracy Plot of All Training Conditions}
     \label{fig:acc_speed_all}
 \end{figure}
-The Fig\ref{fig:acc_speed_all} illustrates the performance of the model under various training conditions during the experimental testing. The x-axis represents the average training speed, while the y-axis denotes the maximum accuracy achieved on the test set during the training process. Each point corresponds to a specific training scenario.
+Fig\ref{fig:acc_speed_all} presents model performance under varying training conditions, with the x-axis showing average training speed and the y-axis indicating maximum test accuracy. Each point represents a specific training scenario.
 
-Among these, \texttt{Frame\_Num16} represents the baseline scenario, where the original dataset is divided into 16 frames for training the base model. In this case, the average training speed is 7.5, and the maximum accuracy on the test set is 91.0\%. The other points labeled with different frame numbers correspond to scenarios where the base dataset is divided into varying numbers of frames for training. It can be observed that as the number of frames decreases, the average training speed increases, but the test accuracy shows a decline.
+The baseline (\texttt{Frame\_Num16}) achieves 91.0\% accuracy at 7.5 training speed. Reducing frame count increases speed but decreases accuracy. The \texttt{denoise} scenario yields optimal results with 92.4\% accuracy at 7.4 speed, outperforming the baseline. In contrast, \texttt{denoise + SEBlock} achieves higher accuracy but significantly reduces speed to 5.7 due to computational overhead.
 
-The point labeled \texttt{denoise} represents the scenario where the base dataset is denoised before training the base model. Here, the training performance is the most optimal, with an average speed of 7.4—close to the baseline—and a prediction accuracy of 92.4\%, which is overall superior to the baseline. On the other hand, the point labeled \texttt{denoise + SEBlock} corresponds to the scenario where the denoised dataset is used to train the base model integrated with the SEBlock attention mechanism. While the accuracy in this case is also higher than the baseline, the average training speed significantly decreases to 5.7.
-
-In summary, the results demonstrate that denoising the dataset leads to the most favorable training outcomes, achieving both competitive training speed and improved accuracy. However, integrating the SEBlock attention mechanism, although enhancing accuracy, incurs a notable reduction in training efficiency.
-
-These findings highlight the importance of carefully balancing model complexity, data quality, and computational efficiency. While attention mechanisms like SEBlock offer theoretical benefits, their practical effectiveness depends on task-specific design and rigorous validation. Future work should focus on optimizing attention mechanisms for specific tasks, exploring dynamic approaches to reduce computational overhead, and further investigating the role of data preprocessing in improving model performance.
+These results demonstrate that denoising enhances both speed and accuracy, while SEBlock integration improves accuracy at the cost of efficiency. This highlights the need to balance model complexity, data quality, and computational efficiency. Future work should focus on optimizing attention mechanisms and refining data preprocessing techniques for improved performance.
 
 \section{Conclusion}
-In this study, we explored the impact of spatio-temporal polarity coherent filtering and the integration of the SEBlock attention mechanism on model performance for gesture recognition using the DVS Gesture dataset. Our experiments systematically evaluated the effects of varying frame counts, denoising, and attention mechanisms on training efficiency and model accuracy, providing valuable insights into the trade-offs between computational complexity and predictive performance.
+This study investigates the impact of spatio-temporal polarity coherent filtering and SEBlock attention mechanisms on gesture recognition using the DVS Gesture dataset. We systematically evaluated frame counts, denoising, and attention mechanisms, revealing key trade-offs between computational efficiency and model performance.
 
-First, we demonstrated that the number of frames per event significantly influences model training speed and accuracy. While reducing the number of frames accelerates training, it also leads to information loss and reduced accuracy. The optimal balance was achieved with 16 frames, yielding the highest accuracy of 91.0\%, albeit at the slowest training speed of 7.5. Conversely, using only 2 frames resulted in the lowest accuracy of 83.0\% but increased training speed nearly tenfold.
+We found that 16 frames yielded optimal accuracy (91.0\%) but slowest training speed (7.5), while 2 frames reduced accuracy to 83.0\% but accelerated training tenfold. Spatio-temporal denoising improved generalization, achieving 92.4\% accuracy (1.4\% higher than the original dataset) and 0.002 lower test loss. SEBlock integration increased accuracy but slowed training (5.7 vs. 7.4) and worsened generalization, with 0.0014 higher test loss and 0.7\% lower accuracy compared to the baseline.
 
-Second, we showed that denoising the dataset using spatio-temporal polarity coherent filtering enhances model generalization. The denoised dataset consistently outperformed the original dataset in testing metrics, achieving a peak accuracy of 92.4\% compared to 91.0\% on the original dataset. Additionally, the denoised dataset maintained approximately 0.002 lower test loss and 1.4\% higher accuracy, underscoring the importance of data preprocessing in optimizing model performance.
+These results emphasize the need to balance model complexity, data quality, and computational efficiency. While attention mechanisms like SEBlock offer theoretical advantages, their practical utility requires task-specific optimization. Future work should focus on dynamic attention mechanisms and enhanced data preprocessing for event-based vision tasks.
 
-Third, we investigated the integration of the SEBlock attention mechanism into the baseline model. While the attention-augmented model achieved higher accuracy than the baseline, its training speed was significantly slower (average speed: 5.7 vs. 7.4) due to increased computational overhead. Moreover, the attention mechanism introduced additional complexity without commensurate improvements in generalization, as evidenced by the consistently higher test loss (approximately 0.0014) and lower accuracy (0.7\% decrease) compared to the baseline.
-
-These findings highlight the importance of carefully balancing model complexity, data quality, and computational efficiency. While attention mechanisms like SEBlock offer theoretical benefits, their practical effectiveness depends on task-specific design and rigorous validation. Future work should focus on optimizing attention mechanisms for specific tasks, exploring dynamic approaches to reduce computational overhead, and further investigating the role of data preprocessing in improving model performance.
-
-In conclusion, our study underscores the critical role of data preprocessing and task-aware architecture design in enhancing model performance. By systematically evaluating the trade-offs between frame counts, denoising, and attention mechanisms, we provide a foundation for future research in optimizing gesture recognition models and other event-based vision tasks.
+In conclusion, this study highlights the importance of data preprocessing and task-aware design in model optimization, providing a foundation for advancing gesture recognition and related applications.
 % \subsection{Abbreviations and Acronyms}\label{AA}
 % Define abbreviations and acronyms the first time they are used in the text, 
 % even after they have been defined in the abstract. Abbreviations such as 
@@ -544,7 +536,6 @@ In conclusion, our study underscores the critical role of data preprocessing and
 % G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
 % acknowledgments in the unnumbered footnote on the first page.
 
-\section*{References}
 
 % Please number citations consecutively within brackets \cite{b1}. The 
 % sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
