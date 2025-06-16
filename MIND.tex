@@ -8,67 +8,47 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{subcaption}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Efficient Neuromorphic Data Processing: A Unified Framework for Pipeline Optimization and Lightweight Preprocessing*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
+\title{Data Processing Optimization in Spiking Neural Networks: Integration of Spatio-Temporal Polarity Coherence Filtering and Attention Mechanisms\\
+
+\thanks{ *These authors contributed equally.
+
+ †Corresponding author.}
 }
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\author{\IEEEauthorblockN{1\textsuperscript{st}* Yonghui Wang}
+\IEEEauthorblockA{\textit{Computer Science and Engineering} \\
+\textit{UESTC}\\
+Chengdu, China \\
+wangyonghui166@gmail.com}
 \and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{2\textsuperscript{nd}* Jinyi Liu}
+\IEEEauthorblockA{\textit{School of Transportation} \\
+\textit{Jilin University}\\
+Changchun, China \\
+liujy1722@mails.jlu.edu.cn}
 \and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{3\textsuperscript{rd}† Jiarui Tang}
+\IEEEauthorblockA{\textit{Computer Science and Engineering} \\
+\textit{UESTC}\\
+Chengdu, China \\
+tjr030301@163.com}
 }
 
 \maketitle
 
 \begin{abstract}
-To address the computational efficiency bottleneck in real-time processing of neuromorphic data (e.g., DVS128 Gesture), 
-this paper proposes an end-to-end acceleration solution that integrates data pipeline optimization and lightweight preprocessing. 
-At the system level, the use of \texttt{num\_workers} for parallel loading and \texttt{prefetch\_factor} for prefetching significantly enhances the throughput of the data pipeline. 
-At the algorithmic level, a dynamic time window event frame aggregation method based on spatiotemporal sparsity is introduced, along with a low-computation pulse noise filtering module leveraging local spatiotemporal correlations. 
-Additionally, structured model pruning is employed to reduce redundant connections and lower computational overhead. Experimental results demonstrate that on an NVIDIA 4070 GPU, the inference speed on the test set is doubled, 
-while achieving classification accuracies of 92.36\% (test set) and 98.97\% (training set). 
-This work combines data pipeline optimization with lightweight preprocessing, providing a high real-time solution for neuromorphic data processing in edge computing scenarios, with significant practical engineering value.
+\sloppy
+This study focuses on applying Spiking Neural Networks (SNNs) to gesture recognition tasks, conducting in-depth experiments on the DVS Gesture dataset. It first examines how different frame - division strategies affect model training speed and accuracy. Results show that 16 - frame division yields the best model performance (91.0\% accuracy) but the slowest training speed, while 2 - frame division gives the lowest accuracy but a significant boost in training speed. Next, by using spatio - temporal polarity coherence filtering for data preprocessing, the model's generalization ability improves, with test accuracy rising to 92.4\% and test loss dropping by about 0.002. However, integrating the attention mechanism (SEBlock) considerably slows down training, and the test loss and accuracy don't meet expectations, indicating that the attention mechanism's effectiveness depends on task - specific design. Overall, this research offers key insights for enhancing gesture recognition models and other event - based visual tasks, emphasizing the importance of balancing data preprocessing, model complexity, and computational efficiency.
+The code is available at \url{https://github.com/1664178416/Filtering-and-Attention-Mechanisms}
 \end{abstract}
 
 \begin{IEEEkeywords}
-Neuromorphic Computing, Data Pipeline Optimization, Pulse Noise Filtering
+Spiking Neural Networks, Spatio-Temporal Polarity Coherence Filtering, Attention Mechanism
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -119,20 +99,20 @@ Given an event stream $\mathcal{E} = \{e_i\}_{i=1}^N$, where each event $e_i = (
 \subsubsection{Polarity-Consistent Spatio-Temporal Filtering}
 
 For each event $e_i$, define its feature vector as:
-\[
+\begin{equation}
 \mathbf{f}_i = \left( \left\lfloor \frac{t_i}{\Delta t} \right\rfloor, x_i, y_i \right)
-\]
+\end{equation}
 where $\Delta t$ is the time window (e.g., 1000).
 
 Construct a $k$-d tree using all $\mathbf{f}_i$ and, for each event, find its neighbors within radius $r$:
-\[
+\begin{equation}
 \mathcal{N}_i = \left\{ j \mid \|\mathbf{f}_j - \mathbf{f}_i\|_2 \leq r \right\}
-\]
+\end{equation}
 
 An event $e_i$ is retained if the number of neighbors with the same polarity exceeds a threshold $\theta$:
-\[
+\begin{equation}
 \sum_{j \in \mathcal{N}_i} \mathbb{I}(p_j = p_i) > \theta
-\]
+\end{equation}
 where $\mathbb{I}(\cdot)$ is the indicator function.
 
 \subsubsection{Temporal Frame Integration (16 Frames Example)}
@@ -140,9 +120,9 @@ where $\mathbb{I}(\cdot)$ is the indicator function.
 Let the filtered events be $\{e_k\}_{k=1}^{N'}$ with timestamps $t_k$. Define $t_{\text{start}} = t_1$, $t_{\text{end}} = t_{N'}$, and total duration $T = t_{\text{end}} - t_{\text{start}}$.
 
 Set the base frame width and remainder as:
-\[
+\begin{equation}
 d = \left\lfloor \frac{T}{16} \right\rfloor, \quad r = T \bmod 16
-\]
+\end{equation}
 
 For frame $i$ ($i = 0, 1, \ldots, 15$), the time interval is:
 \begin{align}
@@ -159,9 +139,9 @@ where
 \end{equation}
 
 Each frame $F_i$ is constructed by accumulating events in $[t_{\text{low}}^{(i)}, t_{\text{high}}^{(i)})$:
-\[
+\begin{equation}
 F_i(c, x, y) = \sum_{k \in \mathcal{S}_i} \mathbb{I}(x_k = x, y_k = y, p_k = c)
-\]
+\end{equation}
 where $\mathcal{S}_i = \{k \mid t_{\text{low}}^{(i)} \leq t_k < t_{\text{high}}^{(i)}\}$ and $c \in \{0, 1\}$ denotes the polarity channel.
 
 The final output is a tensor of shape $16 \times 2 \times H \times W$.
@@ -535,6 +515,7 @@ In conclusion, this study highlights the importance of data preprocessing and ta
 % an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
 % G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
 % acknowledgments in the unnumbered footnote on the first page.
+
 
 
 % Please number citations consecutively within brackets \cite{b1}. The 
