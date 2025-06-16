@@ -1,5 +1,5 @@
 materials/datasets
 materials/lab/logs/backups
-MIND.aux
-MIND.log
+
+MIND.synctex.gz
 MIND.pdf
