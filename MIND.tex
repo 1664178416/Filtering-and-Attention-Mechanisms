@@ -184,7 +184,7 @@ while the training loss serves purely as a diagnostic indicator rather than a co
 \subsection{Impact of Frame Count on Model Performance}
 When processing DVS Gesture data, it is often necessary to convert the raw event stream into some form of image representation (e.g., event frames, accumulated frames, or time surfaces) so that it can be input into a convolutional neural network (CNN) for classification or other tasks. In this process, frame number is a key parameter, which indicates how many time windows the entire event stream should be divided into. Within each window, an "event frame" is generated as an input feature.
 
-In this experiment, we process the DVS Gesture dataset on different frame numbers, as shown in Fig \ref{fig:dvs_gesture_frame_num}. Each row represents the processed dataset with different frame numbers, from top to bottom the number of frames is 2, 4, 8, and 16. And each column represents a different category, from left to right, which is guitar, right hand wave, forearm roll forward, left hand wave, right hand counter clockwise, right hand clockwise, left hand counter clockwise, left hand clockwise, clap, drums and others.
+In this experiment, we process the DVS Gesture dataset on different frame numbers, as shown in Fig \ref{fig:dvs_gesture_frame_num}. Each row represents the processed dataset with different frame numbers, from top to bottom the number of frames is 2, 4, 8, and 16. And each column represents a different category, from left to right, which is guitar, right hand wave, forearm roll forward, left hand wave, right hand counter clockwise, right hand clockwise, left hand counter clockwise, left hand clockwise, clap, drums and others\cite{zeng_improving_2017}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.45\textwidth]{figure/dataset.png}
@@ -350,7 +350,7 @@ The baseline (\texttt{Frame\_Num16}) achieves 91.0\% accuracy at 7.5 training sp
 These results demonstrate that denoising enhances both speed and accuracy, while SEBlock integration improves accuracy at the cost of efficiency. This highlights the need to balance model complexity, data quality, and computational efficiency. Future work should focus on optimizing attention mechanisms and refining data preprocessing techniques for improved performance.
 
 \section{Conclusion}
-This study investigates the impact of spatio-temporal polarity coherent filtering and SEBlock attention mechanisms on gesture recognition using the DVS Gesture dataset. We systematically evaluated frame counts, denoising, and attention mechanisms, revealing key trade-offs between computational efficiency and model performance.
+This study investigates the impact of spatio-temporal polarity coherent filtering and SEBlock attention mechanisms on gesture recognition using the DVS Gesture dataset. We systematically evaluated frame numbers, denoising, and attention mechanisms, revealing key trade-offs between computational efficiency and model performance.
 
 We found that 16 frames yielded optimal accuracy (91.0\%) but slowest training speed (7.5), while 2 frames reduced accuracy to 83.0\% but accelerated training tenfold. Spatio-temporal denoising improved generalization, achieving 92.4\% accuracy (1.4\% higher than the original dataset) and 0.002 lower test loss. SEBlock integration increased accuracy but slowed training (5.7 vs. 7.4) and worsened generalization, with 0.0014 higher test loss and 0.7\% lower accuracy compared to the baseline.
 
