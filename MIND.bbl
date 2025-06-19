@@ -55,14 +55,14 @@ T.~Zhang, K.~Yu, X.~Zhong, H.~Wang, Q.~Xu, and Q.~Zhang, ``Staa-snn: Spatial-tem
 \bibitem{8578284}
 A.~Sironi, M.~Brambilla, N.~Bourdis, X.~Lagorce, and R.~Benosman, ``Hats: Histograms of averaged time surfaces for robust event-based object classification,'' in \emph{2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition}, 2018, pp. 1731--1740.
 
-\bibitem{qiu2024}
-\BIBentryALTinterwordspacing
-X.~Qiu, R.-J. Zhu, Y.~Chou, Z.~Wang, L.~jian Deng, and G.~Li, ``Gated attention coding for training high-performance and efficient spiking neural networks,'' 2024. [Online]. Available: \url{https://arxiv.org/abs/2308.06582}
-\BIBentrySTDinterwordspacing
-
 \bibitem{yu2025}
 \BIBentryALTinterwordspacing
 K.~Yu, T.~Zhang, H.~Wang, and Q.~Xu, ``Fsta-snn:frequency-based spatial-temporal attention module for spiking neural networks,'' 2025. [Online]. Available: \url{https://arxiv.org/abs/2501.14744}
+\BIBentrySTDinterwordspacing
+
+\bibitem{qiu2024}
+\BIBentryALTinterwordspacing
+X.~Qiu, R.-J. Zhu, Y.~Chou, Z.~Wang, L.~jian Deng, and G.~Li, ``Gated attention coding for training high-performance and efficient spiking neural networks,'' 2024. [Online]. Available: \url{https://arxiv.org/abs/2308.06582}
 \BIBentrySTDinterwordspacing
 
 \bibitem{shen2024}
@@ -70,10 +70,35 @@ K.~Yu, T.~Zhang, H.~Wang, and Q.~Xu, ``Fsta-snn:frequency-based spatial-temporal
 S.~Shen, D.~Zhao, G.~Shen, and Y.~Zeng, ``Tim: An efficient temporal interaction module for spiking transformer,'' 2024. [Online]. Available: \url{https://arxiv.org/abs/2401.11687}
 \BIBentrySTDinterwordspacing
 
+\bibitem{10138927}
+W.~Cai, H.~Sun, R.~Liu, Y.~Cui, J.~Wang, Y.~Xia, D.~Yao, and D.~Guo, ``A spatial–channel–temporal-fused attention for spiking neural networks,'' \emph{IEEE Transactions on Neural Networks and Learning Systems}, vol.~35, no.~10, pp. 14\,315--14\,329, 2024.
+
+\bibitem{TAVANAEI201947}
+\BIBentryALTinterwordspacing
+A.~Tavanaei, M.~Ghodrati, S.~R. Kheradpisheh, T.~Masquelier, and A.~Maida, ``Deep learning in spiking neural networks,'' \emph{Neural Networks}, vol. 111, pp. 47--63, 2019. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0893608018303332}
+\BIBentrySTDinterwordspacing
+
 \bibitem{10.5555/2728336.2728412}
 N.~Brunel and M.~C. Rossum, ``Quantitative investigations of electrical nerve excitation treated as polarization,'' \emph{Biol. Cybern.}, vol.~97, no. 5–6, p. 341–349, Dec. 2007.
 
+\bibitem{9138762}
+G.~Gallego, T.~Delbrück, G.~Orchard, C.~Bartolozzi, B.~Taba, A.~Censi, S.~Leutenegger, A.~J. Davison, J.~Conradt, K.~Daniilidis, and D.~Scaramuzza, ``Event-based vision: A survey,'' \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, vol.~44, no.~1, pp. 154--180, 2022.
+
 \bibitem{zeng_improving_2017}
 Y.~Zeng, T.~Zhang, and B.~Xu, ``Improving multi-layer spiking neural networks by incorporating brain-inspired rules,'' \emph{Science China Information Sciences}, vol.~60, no.~5, p. 052201, 2017.
+
+\bibitem{10.1145/3065386}
+\BIBentryALTinterwordspacing
+A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton, ``Imagenet classification with deep convolutional neural networks,'' \emph{Commun. ACM}, vol.~60, no.~6, p. 84–90, May 2017. [Online]. Available: \url{https://doi.org/10.1145/3065386}
+\BIBentrySTDinterwordspacing
+
+\bibitem{726791}
+Y.~Lecun, L.~Bottou, Y.~Bengio, and P.~Haffner, ``Gradient-based learning applied to document recognition,'' \emph{Proceedings of the IEEE}, vol.~86, no.~11, pp. 2278--2324, 1998.
+
+\bibitem{redmon2018yolov3}
+J.~Redmon and A.~Farhadi, ``Yolov3: An incremental improvement,'' \emph{arXiv preprint arXiv:1804.02767}, 2018.
+
+\bibitem{2021Towards}
+G.~Datta, S.~Kundu, A.~Jaiswal, and P.~Beerel, ``Towards energy-efficient quantized deep spiking neural networks for hyperspectral image classification,'' \emph{ArXiv}, 2021.
 
 \end{thebibliography}
